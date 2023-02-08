@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,10 +13,11 @@ public class PlayerMovement : MonoBehaviour
 
     //public GameObject gamewonpanel;
     public GameObject canvas;
+    private bool IsGameWon = false;
+
     public GameObject PauseMenu;
-    private bool IsGameWon;
-    private bool IsGamePaused;
-   
+    private bool IsGamePasued = false;
+    
 
     void Start()
     {
@@ -28,20 +30,20 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            Debug.Log("Game Paused");
+            PauseMenu.SetActive(true);
+            IsGamePasued = true;
+        }
+
         if(IsGameWon == true)
         {
             return;
         }
-        if(Input.GetKey(KeyCode.Escape))
-        {
-            PauseMenu.SetActive(true);
            
-        }
-        
-
-
-        // But I observed delay wtih this GetAxis option                             //for inouts you can also use
-        if (Input.GetKey(KeyCode.RightArrow))                                       // Input.GetAxis("Horizontal") > 0;
+                                                                                     //for inouts you can also use
+        if (Input.GetKey(KeyCode.RightArrow))                                       // Input.GetAxis("Horizontal") > 0;   // But I observed delay wtih this GetAxis option    
         {
             playerrigidbody.velocity = new Vector2(speed * Time.deltaTime, 0f);
             
@@ -80,5 +82,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+   public void RestratGame()
+    {
+        SceneManager.LoadScene(0);
+    }
   
+    public void ResumeGame()
+    {
+        PauseMenu.SetActive(false);
+        IsGamePasued = false;
+    }
 }
