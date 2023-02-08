@@ -9,19 +9,38 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D playerrigidbody;
     public float speed; 
     float maxspeed;
+
+    //public GameObject gamewonpanel;
+    public GameObject canvas;
+    public GameObject PauseMenu;
+    private bool IsGameWon;
+    private bool IsGamePaused;
    
 
     void Start()
     {
+
         
-       
+
 
     }
 
     
     void Update()
-    {                                                                                //for inouts you can also use
-                                                                                     // But I observed delay wtih this GetAxis option
+    {
+        if(IsGameWon == true)
+        {
+            return;
+        }
+        if(Input.GetKey(KeyCode.Escape))
+        {
+            PauseMenu.SetActive(true);
+           
+        }
+        
+
+
+        // But I observed delay wtih this GetAxis option                             //for inouts you can also use
         if (Input.GetKey(KeyCode.RightArrow))                                       // Input.GetAxis("Horizontal") > 0;
         {
             playerrigidbody.velocity = new Vector2(speed * Time.deltaTime, 0f);
@@ -56,6 +75,10 @@ public class PlayerMovement : MonoBehaviour
         if (collision.tag == "Prize")
         {
             Debug.Log("Level Complete");
+            canvas.SetActive(true);
+            IsGameWon = true;
         }
     }
+
+  
 }
