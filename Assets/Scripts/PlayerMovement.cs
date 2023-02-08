@@ -7,7 +7,8 @@ public class PlayerMovement : MonoBehaviour
     //for player movement we need to access the rigidbody component of that player
     //so we created a variable of type Rigidbody2D
     public Rigidbody2D playerrigidbody;
-    public float speed;                          //speed of player moovement
+    public float speed; 
+    float maxspeed;
    
 
     void Start()
@@ -23,25 +24,38 @@ public class PlayerMovement : MonoBehaviour
                                                                                      // But I observed delay wtih this GetAxis option
         if (Input.GetKey(KeyCode.RightArrow))                                       // Input.GetAxis("Horizontal") > 0;
         {
-            playerrigidbody.velocity = new Vector2(speed, 0f);
+            playerrigidbody.velocity = new Vector2(speed * Time.deltaTime, 0f);
+            
         }
         else if (Input.GetKey(KeyCode.LeftArrow))                                  //Input.GetAxis("Horizontal") < 0;
         {
-            playerrigidbody.velocity = new Vector2(- speed, 0f);
+            playerrigidbody.velocity = new Vector2(- speed * Time.deltaTime, 0f); 
         }
         else if (Input.GetKey(KeyCode.UpArrow))                                   //Input.GetAxis("Vetrtical") > 0;
         {
-            playerrigidbody.velocity = new Vector2(0f, speed);
+            playerrigidbody.velocity = new Vector2(0f, speed * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.DownArrow))                                 //Input.GetAxis("Vetrtical") < 0;
         {
-            playerrigidbody.velocity = new Vector2(0f, - speed);
+            playerrigidbody.velocity = new Vector2(0f , - speed * Time.deltaTime);
         }
 
-        else
+        else if(Input.GetKeyDown(KeyCode.Space))
         {
             playerrigidbody.velocity = new Vector2(0f, 0f);
             
+        }
+        if (maxspeed < 130)
+        {
+            speed++;   
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Prize")
+        {
+            Debug.Log("Level Complete");
         }
     }
 }
