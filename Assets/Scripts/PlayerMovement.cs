@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,12 +18,15 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject PauseMenu;
     private bool IsGamePasued = false;
-    
+
+    public UnityEvent myevent;
+    private bool Isplayerdead = false;
+
+   
 
     void Start()
     {
-
-        
+       
 
 
     }
@@ -80,7 +84,17 @@ public class PlayerMovement : MonoBehaviour
             canvas.SetActive(true);
             IsGameWon = true;
         }
+
+        else if(collision.tag == "EnemyWall")
+        {
+            Debug.Log("Level Lost");
+            myevent.Invoke();
+            Isplayerdead = true;
+            RestratGame();
+        }
     }
+
+   
 
    public void RestratGame()
     {
